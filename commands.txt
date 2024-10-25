@@ -1,0 +1,7 @@
+
+# export cert and private key
+aws acm export-certificate --certificate-arn <arn> --passphrase fileb://passphrase.txt | jq -r '"\(.PrivateKey)"' >> private-key.pem
+aws acm export-certificate --certificate <arn> --passphrase fileb://passphrase.txt | jq -r '"\(.Certificate)"' >> cert.pem
+
+# decrypt private key for use in aws signing helper tool. will ask for passphrase- enter whats in passphrase.txt
+openssl rsa -in private-key.pem -out decrypted-private-key.pem
